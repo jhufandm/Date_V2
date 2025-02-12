@@ -3,7 +3,7 @@
 #include <vector>
 using namespace std;
 
-#include "date.h"
+#include "date.h" //mandatory
 
 Date::Date(){
     day = 1;
@@ -30,7 +30,7 @@ int Date::getYear() const {
 }
 
 void Date::setDay(int day){
-    this->day = day;
+    this->day= day;
 }
 
 void Date::setMonth(int month){
@@ -42,7 +42,7 @@ void Date::setYear(int year){
 }
 
 void Date::Print() const {
-    cout<<month<<"/"<<day<<"/"<<year<<endl;
+    cout<<month<<"/"<<day<<"/"<<year;
 }
 
 bool Date::isLeapYear(int yearNum){
@@ -78,5 +78,64 @@ bool Date::endOfMonth(int dayNum, int monthNum, int yearNum){
         return dayNum == daysInMonth.at(monthNum-1); 
     }
 
+}
+
+Date Date::add(int numDays){
+    Date newDate(month, day, year);
+
+    if (numDays<0) { return newDate;}
+
+    if (newDate.getDay()+numDays <= daysInMonth(newDate.getMonth(), newDate.getYear())){
+        newDate.setDay(newDate.getDay() + numDays);
+    }
+    else{
+        for (int i=0;i<numDays;i++){
+            if (endOfMonth(newDate.day, newDate.month, newDate.year) and newDate.month==12){
+                newDate.setMonth(1);
+                newDate.setDay(1);
+                newDate.setYear(newDate.getYear()+1);
+            }
+            else if (endOfMonth(newDate.day, newDate.month, newDate.year)){
+                newDate.setDay(1);
+                newDate.setMonth(newDate.getMonth()+1);
+            }
+            else{
+                newDate.setDay(newDate.getDay()+1);
+            }
+        }
+
+    }
+    return newDate;
+
+}
+
+Date Date::operator+(int numDays){
+    return add(numDays);
+}
+
+bool Date::operator==(const Date& rhs){
+    return (this->day==rhs.getDay() && this->month==rhs.getMonth() && this->year==rhs.getYear());
+}
+
+bool Date::operator!=(const Date& rhs){
+    return !(*this==rhs); 
+}
+
+
+bool Date::operator<(const Date& rhs){
+    if (this->year < rhs.getYear()) {
+        return true;
+    }
+    else if (this->year == rhs.getYear() && this->month < rhs.getMonth()){
+        return true;
+    }
+    else if (this->year == rhs.getYear() && this->month == rhs.getMonth() && this->day < rhs.getDay()){
+        return true;
+    }
+    else{
+        return false;
+    }
+            
+             
 }
 

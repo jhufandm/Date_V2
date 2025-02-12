@@ -13,6 +13,11 @@ class Date {
         void setMonth(int month);
         void setYear(int year);
         void Print() const; //print the date in a nice format
+        Date add(int numDays); //find the date of certain number days later
+        Date operator+(int numDays); //overload + operator 
+        bool operator==(const Date& rhs); //overload == operator
+        bool operator!=(const Date& rhs);//overload != operator
+        bool operator<(const Date& rhs); //overload < operator
     private:
         int day, month, year; //three instance variables
         bool isLeapYear(int yearNum); //return true/false if it is a leap year or not
